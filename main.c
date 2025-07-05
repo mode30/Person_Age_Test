@@ -9,6 +9,9 @@
 const char *user_error="cannot read user input";
 const char *admin_error="enter vaid admin name";
 const char *wrong_password="wrong password";
+
+int counter();
+
 typedef int Age;
 typedef struct{
 	char *name;
@@ -22,7 +25,8 @@ int main(int argc,char *argv[]){
 	char *enter_number="enter number:";
 	char *enter_command="enter:";
 	char *enter_admin_mode="enter admin name:";
-	 char *enter_password="enter password";
+	char *enter_password="enter password:";
+	char *enter_age="enter age";
 
 	char *admin_password="Pass";
 	int user_mode=0;
@@ -31,12 +35,13 @@ int main(int argc,char *argv[]){
 	char *name=malloc(sizeof(char)*MEM_SIZE);
 	char *admin_name=malloc(sizeof(char)*MEM_SIZE);
 	char *user_input_password=malloc(sizeof(char)*MEM_SIZE);
+	char *actual_admin_name=malloc(sizeof(char)*MEM_SIZE);
 //	char *registered_admin_name=malloc(sizeof(char)*MEM_SIZE);
 
 	PERSON person[PERSON_SIZE];
 	for(int i=0;i<PERSON_SIZE;i++){
 
-	person[i].name=malloc(sizeof(char)*MEM_SIZE);
+		person[i].name=malloc(sizeof(char)*MEM_SIZE);
 	}
 	fputs(admin_mode,stdout);
 	fputs(enter_command,stdout);
@@ -47,25 +52,51 @@ int main(int argc,char *argv[]){
 		fputs(enter_admin_mode,stdout);
 		if(fgets(admin_name,MEM_SIZE,stdin)!=NULL){
 			admin_name[strcspn(admin_name,"\n")]='\0';
-			strncpy(person[0].name,admin_name,MEM_SIZE-1);
-			person[0].name[MEM_SIZE-1]='\0';
+			snprintf(actual_admin_name,MEM_SIZE-1,"%s",admin_name);
+			actual_admin_name[strcspn(actual_admin_name,"\n")]='\0';
 			fputs(enter_password,stdout);
 			if(fgets(user_input_password,MEM_SIZE,stdin)!=NULL){
 
 				user_input_password[strcspn(user_input_password,"\n")]='\0';
-				user_input_password[strlen(admin_password)-1]='\0';
 				if(strcmp(admin_password,user_input_password)==0){
 					printf("welcomee");
+					printf("Task to perform:\n1.enter name and age\n2.delete name\n");
+					fputs(enter_command,stdout);
+					int user_second_input=0;
+					scanf("%d",&user_second_input);
+					while(getchar()!='\n');
+					if(user_second_input==1){
+						int result=counter();
+						fputs(enter_name,stdout);
+						if(fgets(person[result].name,sizeof(person[result].name),stdin)){
+
+							person[result].name[strcspn(person[result].name,"\n")]='\0';
+							printf("%s",person[result].name);
+							fputs(enter_age,stdout);
+							scanf("%d",&age);
+							while(getchar()!='\n');
+							printf("Age:%d",age);
+
+
+
+
+						}
+						else{
+							fprintf(stderr, "%s\n",person[result].name );
+						}
+
+
+					}
 				}
 				else{
-					perror(wrong_password);
+					fprintf(stderr, "%s\n",user_error );
 					return 1;
 				}
 			}
 
 		}
 		else{
-			perror(admin_error);
+			fprintf(stderr,"%s\n",admin_error);
 			putchar('\n');
 			return 1;
 		}
@@ -103,4 +134,9 @@ int main(int argc,char *argv[]){
 	// printf("1:Enter name and age\n2.search\n3.Delete");
 
 	return 0;
+}
+int counter(){
+	static int counter=0;
+	counter++;
+	return counter;
 }
