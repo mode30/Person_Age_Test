@@ -36,6 +36,8 @@ int main(int argc,char *argv[]){
 	char *admin_name=malloc(sizeof(char)*MEM_SIZE);
 	char *user_input_password=malloc(sizeof(char)*MEM_SIZE);
 	char *actual_admin_name=malloc(sizeof(char)*MEM_SIZE);
+	char *user_second_input=malloc(sizeof(char)*MEM_SIZE);
+
 //	char *registered_admin_name=malloc(sizeof(char)*MEM_SIZE);
 
 	PERSON person[PERSON_SIZE];
@@ -76,6 +78,17 @@ int main(int argc,char *argv[]){
 							scanf("%d",&age);
 							while(getchar()!='\n');
 							printf("Age:%d",age);
+							putchar('\n');
+							printf("do you want to save input to a file?:Y/N:");
+							if(fgets(user_second_input,sizeof(user_second_input),stdin)!=NULL){
+
+							user_second_input=toupper(user_second_input);
+							if(user_second_input==Yes || user_second_input=='Y'){
+
+								File *file=fopen("record.txt","a");
+								fclose("record.txt");
+							}
+							}
 
 
 
