@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include<ctype.h>
 #include<string.h>
 #include<stdlib.h>
 
@@ -9,6 +10,8 @@
 const char *user_error="cannot read user input";
 const char *admin_error="enter vaid admin name";
 const char *wrong_password="wrong password";
+const char *file_error="error opening files";
+char *file_name="record.txt";
 
 int counter();
 
@@ -36,7 +39,7 @@ int main(int argc,char *argv[]){
 	char *admin_name=malloc(sizeof(char)*MEM_SIZE);
 	char *user_input_password=malloc(sizeof(char)*MEM_SIZE);
 	char *actual_admin_name=malloc(sizeof(char)*MEM_SIZE);
-	char *user_second_input=malloc(sizeof(char)*MEM_SIZE);
+	char *user_third_input=malloc(sizeof(char)*MEM_SIZE);
 
 //	char *registered_admin_name=malloc(sizeof(char)*MEM_SIZE);
 
@@ -62,6 +65,7 @@ int main(int argc,char *argv[]){
 				user_input_password[strcspn(user_input_password,"\n")]='\0';
 				if(strcmp(admin_password,user_input_password)==0){
 					printf("welcomee");
+				command:
 					printf("Task to perform:\n1.enter name and age\n2.delete name\n");
 					fputs(enter_command,stdout);
 					int user_second_input=0;
@@ -80,14 +84,60 @@ int main(int argc,char *argv[]){
 							printf("Age:%d",age);
 							putchar('\n');
 							printf("do you want to save input to a file?:Y/N:");
-							if(fgets(user_second_input,sizeof(user_second_input),stdin)!=NULL){
+							if(fgets(user_third_input,sizeof(user_third_input),stdin)!=NULL){
 
-							user_second_input=toupper(user_second_input);
-							if(user_second_input==Yes || user_second_input=='Y'){
+								user_third_input[strcspn(user_third_input,"\n")]='\0';
+								//int j=0;
+								for(int j=0;j<strlen(user_third_input);j++){
+									user_third_input[j]=toupper(user_third_input[j]);
 
-								File *file=fopen("record.txt","a");
-								fclose("record.txt");
-							}
+								}
+								if(strcmp(user_third_input,"Y")==0){
+
+									//file saving
+									FILE *file=fopen(file_name,"a");
+									if(file ==NULL){
+										fprintf(stderr,"cannot open file");
+										exit(1);
+									}
+									static int second_counter =0;
+								
+										if(second_counter < 1){
+
+									fprintf(file,"Name\tAge\n");
+									second_counter++;
+									}
+									for(int i=0;i<result;i++){
+
+										fprintf(file,"%s\t%d\n",person[result].name,age);
+									}
+									putchar('\n');
+									printf("adding new data to file");
+									putchar('\n');
+									// if(fclose(file)==EOF){
+									// 	fprintf(stderr,"cannot close file");
+									// }
+									fclose(file);
+									putchar('\n');
+									printf("data appeneded successfully");
+									putchar('\n');
+
+
+								 char *fourth_user_input=malloc(sizeof(char)*100);
+									printf("Enter another record?:");
+									if(fgets(fourth_user_input,MEM_SIZE,stdin)!=NULL){
+										fourth_user_input[strcspn(fourth_user_input,"\n")]='\0';
+
+										for(int i =0;i<strlen(fourth_user_input);i++){
+
+										fourth_user_input[i]=toupper(fourth_user_input[i]);
+										}
+										if(strcmp(fourth_user_input,"Y")==0){
+											goto command;
+										}
+									}
+
+								}
 							}
 
 
