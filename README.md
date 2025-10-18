@@ -54,7 +54,7 @@ Alice   30
 
 ## Notes
 - The program limits the number of person records to 3 (configurable via `PERSON_SIZE`)
-- Admin password is hardcoded as "Pass" (in a real application, this should be secured properly)
+- Admin password is hardcoded as "Pass" for testing purpose
 - The file is opened in append mode, so new records are added to the end of existing file
 
 ## Safety Features
@@ -68,7 +68,7 @@ Alice   30
 - No encryption for stored data
 - Password is hardcoded (not secure for production use)
 
-## Future Improvements
+## Extras to Add
 - Add search functionality
 - Implement proper delete operation
 - Add record editing capability
